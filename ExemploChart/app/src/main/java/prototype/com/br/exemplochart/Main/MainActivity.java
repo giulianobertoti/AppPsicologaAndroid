@@ -19,8 +19,6 @@ import prototype.com.br.exemplochart.R;
  */
 public class MainActivity extends Activity {
 
-    Button button;
-
     BarEntry bar = new BarEntry(4f,3);
 
     @Override
