@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">AppAluno</string>
-    <string name="textButtonSearch">Buscar avaliação</string>
-    <string name="textRA">Número do RA:</string>
-    <string name="title_activity_student_details">StudentDetails</string>
+    <string name="app_name">Menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="textButtonSearch">Pesquisar aluno</string>
 </resources>

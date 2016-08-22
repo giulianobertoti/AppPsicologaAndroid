@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import rest.Connection;
+import REST.Connection;
 import object.Competencie;
 import object.Student;
 
