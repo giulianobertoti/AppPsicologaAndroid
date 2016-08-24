@@ -1,5 +1,10 @@
 <h2>Trabalho de Padrões de Projeto</h2>
 
-AppAluno - Última versão do aplicativo.<br>
-ExemploChart - Exemplo de um projeto com o Chart.<br>
-AppBackEnd - Início Model.<br>
+AppPsicolocaPesquisa - Versão estável com menu de navegação, tela de pesquisa por RA e geração de gráfico de competências.<br>
+
+![alt](blob:http://i.imgur.com/gqiz4hY.png "Menu")<br>
+![alt](blob:http://i.imgur.com/pKA5kmJ.png "Pesquisa")<br>
+![alt](blob:http://i.imgur.com/cZQWOSl.png "Gráfico")<br>
+
+
+
