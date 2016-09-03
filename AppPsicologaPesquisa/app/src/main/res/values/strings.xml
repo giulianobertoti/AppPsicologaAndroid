@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Menu</string>
+    <string name="app_name">Psicóloga</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="textButtonSearch">Pesquisar aluno</string>
+    <string name="comments">Comentário</string>
 </resources>

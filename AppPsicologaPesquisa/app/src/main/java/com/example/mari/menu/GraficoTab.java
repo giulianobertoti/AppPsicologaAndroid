@@ -33,7 +33,7 @@ public class GraficoTab extends Fragment implements OnChartValueSelectedListener
         // Required empty public constructor
     }
 
-    public void passData(Student student) {
+    public void setStudent(Student student) {
 
         this.student = student;
 
