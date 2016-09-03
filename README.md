@@ -1,6 +1,6 @@
 <h2>Trabalho de Padrões de Projeto</h2>
 
-<b>AppPsicolocaPesquisa</b> - Versão estável com menu de navegação, tela de pesquisa por RA e geração de gráfico de competências.<br>
+<b>AppPsicolocaPesquisa</b> - Branch com a tela de detalhes aluno com as abas detalhes e grafico.<br>
 
 <b>Menu</b><br>
 ![alt](http://i.imgur.com/Nf3d9UT.png?1 "Menu" )<br><br>
