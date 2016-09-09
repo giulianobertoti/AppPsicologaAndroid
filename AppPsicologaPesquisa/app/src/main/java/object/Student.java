@@ -15,8 +15,9 @@ public class Student {
     private int period;
     private int year;
     private long ra;
+    private String comentario;
 
-    public Student(String name, String course, String institution, List<Competencie> competencies, int userCode, int period, int year, long ra){
+    public Student(String name, String course, String institution, List<Competencie> competencies, int userCode, int period, int year, long ra, String comentario){
 
         this.name = name;
         this.course = course;
@@ -26,6 +27,7 @@ public class Student {
         this.period = period;
         this.year = year;
         this.ra = ra;
+        this.comentario = comentario;
 
     }
 
@@ -59,6 +61,10 @@ public class Student {
 
     public long getRa() {
         return ra;
+    }
+
+    public String getComentario() {
+        return comentario;
     }
 
     @Override

@@ -2,14 +2,21 @@ package com.example.mari.menu;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+
 import object.Student;
+import rest.Connection;
 
 
 public class DetalhesTab extends Fragment {
@@ -35,11 +42,34 @@ public class DetalhesTab extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.detalhes_tab, container, false);
 
-        TextView textEditRa = (TextView) view.findViewById(R.id.lblRa);
-        TextView textEditNome = (TextView) view.findViewById(R.id.lblNome);
-        textEditRa.setText(textEditRa.getText() + " " + String.valueOf(student.getRa()));
-        textEditNome.setText(String.valueOf(student.getName()));
+        final TextView textViewRa = (TextView) view.findViewById(R.id.lblRa);
+        final TextView textViewNome = (TextView) view.findViewById(R.id.lblNome);
+        final TextView textViewCurso = (TextView) view.findViewById(R.id.lblCurso);
+        final TextView textViewComentario = (TextView) view.findViewById(R.id.comentario);
 
+        Button btnSalvar = (Button) view.findViewById(R.id.btnSalvar);
+
+        textViewRa.setText(textViewRa.getText() + " " + String.valueOf(student.getRa() + "987654"));
+        textViewCurso.setText(textViewCurso.getText() + " " + String.valueOf(student.getCourse()));
+        textViewNome.setText(String.valueOf(student.getName()));
+
+        final String url = "http://localhost:4567/comentario";
+
+        btnSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    JSONObject req = new JSONObject();
+                    req.put("ra", textViewRa.getText());
+                    req.put("comentario", textViewComentario.getText().toString());
+                    JSONObject response = Connection.sendPostObject(url, req);
+
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
+            }
+        });
         return view;
 
 

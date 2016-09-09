@@ -56,7 +56,7 @@ public class Model {
             }
 
             webStudent = new Student(response.getString("name"), response.getString("course"), response.getString("institution")
-                    , lCompetencies, response.getInt("userCode"), response.getInt("period"), response.getInt("year"), response.getLong("ra"));
+                    , lCompetencies, response.getInt("userCode"), response.getInt("period"), response.getInt("year"), response.getLong("ra"), response.getString("comentario"));
 
             if (webStudent != null)
             {

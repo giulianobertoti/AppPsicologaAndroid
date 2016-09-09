@@ -28,8 +28,8 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="87dp"
+                    android:layout_height="87dp"
                     android:layout_alignParentLeft="false"
                     android:layout_alignParentTop="false"
                     android:layout_centerHorizontal="true"
@@ -46,27 +46,35 @@
                     android:layout_marginBottom="10dp"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
+                <TextView
+                    android:id="@+id/lblRa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="17dp"
+                    android:text="RA:"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_gravity="center_horizontal" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorWhite">
 
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite">
                     <TextView
-                        android:id="@+id/lblRa"
+                        android:id="@+id/lblCurso"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:text="Curso:"
                         android:layout_centerInParent="true"
-                        android:text="RA:"
+                        android:layout_marginStart="10dp"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                    <!--<TextView
-                        android:id="@+id/textRa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="19dp"
-                        android:layout_toEndOf="@+id/lblRa"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />-->
-
                 </RelativeLayout>
             </LinearLayout>
 
@@ -79,10 +87,13 @@
                     android:id="@+id/comentario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:textAlignment="center"
+                    android:layout_marginTop="7dp"
                     android:text="@string/comments"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:textSize="19dp" />
 
                 <ScrollView
                     android:id="@+id/ScrollViewEdit"
@@ -90,24 +101,27 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/comentario"
                     android:layout_marginTop="7dp"
-                    android:background="@color/colorWhite">
+                    android:background="@color/colorWhite"
+                    android:layout_alignParentBottom="true">
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:maxLines="10"
-                        android:ems="10"
+                        android:ems="11"
                         android:scrollbars="vertical"
                         android:text="Este aluno possui um serio problema, ele sabe muito da competência 1 mas não sabe nada da competencia 3. Tentei porpor uma solução para o problema mas não tem jeito, a solução é estudar muito mais do que já estudou." />
 
                 </ScrollView>
             </RelativeLayout>
             <Button
+                android:id="@+id/btnSalvar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:text="Salvar Comentário"
+
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorWhite"/>
         </LinearLayout>
