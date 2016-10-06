@@ -100,10 +100,7 @@ public class StudentModel
 
         try
         {
-        	JSONObject req = new JSONObject();
-        	req.put("ra", code);
-        	req.put("comentario", comment);
-            JSONObject response = RestConnection.sendPostObject(url, req);
+            JSONObject response = RestConnection.sendPostObject(url, comment);
             
             JSONArray competencies = response.getJSONArray("competencies");
             List<Competencie> lCompetencies = new ArrayList<>();
