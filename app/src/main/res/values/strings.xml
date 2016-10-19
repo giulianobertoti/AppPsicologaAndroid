@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">APP_Aluno_Tela</string>
+    <string name="action_settings">Settings</string>
+    <string name="acao2">Despede este funcionario</string>
+    <string name="acao_1">Contrata um funcionario</string>
+    <string name="acao3">Verifica o que está acontecendo</string>
+    <string name="acao4">Manda um funcionario ver o que esta acontecendo</string>
+</resources>
