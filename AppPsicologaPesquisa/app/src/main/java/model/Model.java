@@ -1,53 +1,38 @@
 package model;
 
-/**
- * Created by 4º Semestre de 2016
- * Curso de Banco
- * Fatec SJC
- */
-
-import android.util.Log;
+import android.os.StrictMode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import rest.Connection;
 import object.Competencie;
 import object.Student;
+import rest.RestConnection;
 
 /**
- * A classe Model manipula a conexão, recebendo o JSONArray contendo as informações dos estudantes que serão usadas pela nossa aplicação
+ * Created by renan on 17/08/16.
  */
-
 public class Model {
-
-
     private List<Student> students = new ArrayList<>();
-
-    /**
-     * Variável de instancia da conexão
-     * Obs: static pois a conexão não será mudada depois de instanciada
-     */
-
-    private static Connection con;
+    private static RestConnection con;
 
     static
     {
-        con = new Connection();
+        con = new RestConnection();
     }
 
-    /**
-     * Método que enviará a requisição GET ao WebService e retornará um estudante com suas competências
-     * @param code - o código do estudante que será usado para a pesquisa correta das informações cadastradas sobre o estudante
-     * @return webStudent - o método retorna um objeto estudante, que contém as informações retornadas pelo JSON
-     * Obs: Para questão de estudo, utilize o modo debug para ver o retorno dos logs inseridos no código
-     */
+    //Método que enviará a requisição GET ao WebService e retornará um estudante com suas competências
     public Student searchByCode(long code)
     {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         /*
         * Varredura na memória local para busca de estudantes já carregados.
         * */
@@ -60,48 +45,25 @@ public class Model {
         /*
         * Conexão no webService para busca de estudantes.
         * */
-        String url = "http://teste-inacio.rhcloud.com/fatec/map/quiz/result/student?userCode="+code;
+        String url = "http://teste-inacio.rhcloud.com/fatec/map/quiz/result/student?userCode=" + code;
 
         Student webStudent = null;
 
-        try {
-            //Envio do url com o código inserido pelo usuário, que trará o objeto
-            //Obs: sendGetObject é um método da classe Connection
-            JSONObject response = con.sendGetObject(url);
-            //retorna a array de competencies, um dos valores da response
+        try
+        {
+            JSONObject response = con.sendGetArray(url);
             JSONArray competencies = response.getJSONArray("competencies");
-
-            /* Conteúdo da variável response para o code = 16
-            * {"userCode":16,"name":"Hugo Almeida","ra":"1234567890","period":2,"year":2016,"course":"Banco de Dados","institution":"Fatec Jessen Vidal",
-            * "competencies":[{"code":1,"type":"teste competência 1","weight":111,"situation":0},{"code":2,"type":"teste competência 2","weight":35,"situation":0},
-            * {"code":3,"type":"teste competência 3","weight":37,"situation":0},{"code":4,"type":"teste competência 4.1","weight":19,"situation":0}]} */
-            Log.d("response", response.toString());
-
-            /*Conteúdo da váriavel competencies para o code = 16
-            *[{"code":1,"type":"teste competência 1","weight":111,"situation":0},{"code":2,"type":"teste competência 2","weight":35,"situation":0},
-            * {"code":3,"type":"teste competência 3","weight":37,"situation":0},{"code":4,"type":"teste competência 4.1","weight":19,"situation":0}*/
-            Log.d("competencies", competencies.toString());
-
             List<Competencie> lCompetencies = new ArrayList<>();
 
-            //Este for utilizará o JSONArray e quebrará a String inserindo as competencias (nome e valor de cada) no ArrayList lCompetencies
             for (int i = 0; i < competencies.length(); i++)
             {
-                //Este comando pega do Array competencies a posição (i) das chaves do array
-                //Ex: (i = 0) - primeira chave (obj) = {"code":1,"type":"teste competência 1","weight":111,"situation":0}
-                //Ex: (i = 1) - segunda chave  (obj) = {"code":2,"type":"teste competência 2","weight":35,"situation":0}
                 JSONObject obj = competencies.getJSONObject(i);
-                Log.d("forModel "+i, obj.toString());
-
-                //insere os valores "type" e "weight" na classe Competencie e atribui às posições do Array lCompetencies
                 lCompetencies.add(new Competencie(obj.getString("type"),obj.getInt("weight")));
             }
 
-            //Insere as informações do Student na variável webStudent, declarada mais acima
             webStudent = new Student(response.getString("name"), response.getString("course"), response.getString("institution")
-                    , lCompetencies, response.getInt("userCode"), response.getInt("period"), response.getInt("year"), response.getLong("ra"));
+                    , lCompetencies, response.getInt("userCode"), response.getInt("period"), response.getInt("year"), response.getString("ra"), response.getString("comments"));
 
-            //insere o estudante na lista instanciada no inicio da classe Model se a variável não for nula
             if (webStudent != null)
             {
                 students.add(webStudent);
@@ -113,6 +75,60 @@ public class Model {
         }
         catch (Exception e)
         {
+        }
+
+        return webStudent;
+    }
+
+    public Student insertComment(long code, String comment)
+    {
+
+        for (Student std : students)
+        {
+            if (std.getUserCode() == code)
+                return std;
+        }
+
+
+        String url = "http://teste-inacio.rhcloud.com/fatec/map/enrolls/comment?studentCode="+code;
+
+        Student webStudent = null;
+
+        try
+        {
+            String response = RestConnection.sendPutPlainText(url, comment);
+
+            if(response.equals("true"))
+            {
+
+                webStudent = searchByCode(code);
+
+                if (webStudent != null)
+                {
+                    if(students.contains(webStudent))
+                    {
+                        students.get(students.indexOf(webStudent)).setComment(comment);
+                    }
+                    else
+                    {
+                        students.add(webStudent);
+                    }
+                }
+            }
+
+
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
 
         return webStudent;
