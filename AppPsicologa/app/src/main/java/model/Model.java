@@ -131,6 +131,36 @@ public class Model {
             e.printStackTrace();
         }
 
+
+        public static ArrayList<Student> studentsReturn(int institution, int period, int year, String course){
+        ArrayList<Student> students = new ArrayList<Student>();
+        String url = "http://teste-inacio.rhcloud.com/fatec/map/enrolls/search/students/all/fatec?fatecCode=" + institution;
+
+        try{
+            JSONArray response = RestConnection.sendGetArray(url);
+
+            for (int i = 0; i < response.length(); i++)
+            {
+                JSONObject obj = response.getJSONObject(i);
+                if(obj.getString("course").equals(course) && obj.getInt("period") == period && obj.getInt("year") == year){
+                    Student student = new Student();
+
+                    JSONObject json = obj.getJSONObject("user");
+                    student.setVerification(obj.getInt("verification"));
+                    student.setUserCode(json.getInt("userCode"));
+                    student.setName(json.getString("name"));
+
+                    students.add(student);
+                }
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return webStudent;
     }
 

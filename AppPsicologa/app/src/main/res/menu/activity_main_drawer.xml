@@ -6,6 +6,10 @@
             android:id="@+id/pesquisar_aluno"
             android:icon="@drawable/ic_person_black"
             android:title="Pesquisar Aluno" />
+        <item
+            android:id="@+id/pesquisar_curso"
+            android:icon="@drawable/ic_person_black"
+            android:title="Pesquisar curso" />
     </group>
 
     <item android:title="Communicate">
