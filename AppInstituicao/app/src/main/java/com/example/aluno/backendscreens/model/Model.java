@@ -67,7 +67,7 @@ public class Model {
                     JSONObject json = obj.getJSONObject("user");
                     student.setVerification(obj.getInt("verification"));
                     student.setUserCode(json.getInt("userCode"));
-                    student.setName(json.getString("name"));
+                    student.setName(json.getString("name").toUpperCase());
 
                     students.add(student);
                 }

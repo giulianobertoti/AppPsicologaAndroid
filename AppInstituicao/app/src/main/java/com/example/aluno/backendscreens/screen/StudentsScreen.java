@@ -16,10 +16,12 @@ import com.example.aluno.backendscreens.listview.Color;
 import com.example.aluno.backendscreens.listview.ColorAdapter;
 import com.example.aluno.backendscreens.model.Model;
 import com.example.aluno.backendscreens.object.CoursesDatas;
+import com.example.aluno.backendscreens.object.OrderByName;
 import com.example.aluno.backendscreens.object.Student;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public  class  StudentsScreen extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public  class  StudentsScreen extends AppCompatActivity {
         setContentView(R.layout.activity_students_screen);
         Model model = new Model();
         final ArrayList<Student> students = model.studentsReturn(CoursesDatas.institution, CoursesDatas.period, CoursesDatas.year, CoursesDatas.course);
+        Collections.sort(students, new OrderByName());
         ArrayList<Color> color_data = new ArrayList<Color>();
 
         //Alerta no caso de vazio
