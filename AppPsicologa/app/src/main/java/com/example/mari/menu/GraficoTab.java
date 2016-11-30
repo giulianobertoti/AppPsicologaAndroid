@@ -2,12 +2,13 @@ package com.example.mari.menu;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,9 +45,6 @@ public class GraficoTab extends Fragment implements OnChartValueSelectedListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
     }
 
     @Override
@@ -56,7 +54,9 @@ public class GraficoTab extends Fragment implements OnChartValueSelectedListener
         View view = inflater.inflate(R.layout.grafico_tab, container, false);
 
 
-        RadarChart radarChart = (RadarChart) view.findViewById(R.id.chart);
+        RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.layoutChart);
+        RadarChart radarChart = new RadarChart(view.getContext());
+
         textView = (TextView) view.findViewById(R.id.labelId);
 
         ArrayList<String> labels = new ArrayList<String>();
@@ -80,8 +80,10 @@ public class GraficoTab extends Fragment implements OnChartValueSelectedListener
         RadarData data = new RadarData(labels, dataset);
 
         radarChart.setData(data);
+        relativeLayout.addView(radarChart);
 
         return view;
+
     }
 
     @Override

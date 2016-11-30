@@ -3,7 +3,6 @@ package com.example.mari.menu;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -38,9 +37,6 @@ public class PesquisarAluno extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pesquisar_aluno);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,7 +64,7 @@ public class PesquisarAluno extends AppCompatActivity {
     public void searchStudentByRA(View view) {
         EditText editRa = (EditText) findViewById(R.id.editText);
         Intent intent = new Intent(this, DetalhesAluno.class);
-        intent.putExtra("ra", String.valueOf(editRa.getText()));
+        intent.putExtra("userCode", String.valueOf(editRa.getText()));
         startActivity(intent);
     }
 

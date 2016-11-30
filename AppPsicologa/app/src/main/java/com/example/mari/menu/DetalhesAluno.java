@@ -2,38 +2,51 @@ package com.example.mari.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import model.Model;
 import object.Student;
+import okhttp3.ResponseBody;
+import rest.RetrofitService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import service.ServiceGenerator;
 
 public class DetalhesAluno extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    Student student = null;
+    Student student = new Student();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.detalhes_aluno);
 
+        Intent intent = getIntent();
+        int userCode = Integer.parseInt(intent.getStringExtra("userCode"));
+        retrofitConverter(userCode);
+
+        super.onCreate(savedInstanceState);
+
+
+        setContentView(R.layout.detalhes_aluno);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
+    }
 
-        long ra = Long.parseLong(intent.getStringExtra("ra"));
 
-        Model model = new Model();
+    private void setupViewPager() {
 
-        student = model.searchByCode(ra);
 
         if (student == null) {
             Intent main_intent = new Intent(this, PesquisarAluno.class);
@@ -41,16 +54,12 @@ public class DetalhesAluno extends AppCompatActivity {
             startActivity(main_intent);
         }
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-    }
 
-
-    private void setupViewPager(ViewPager viewPager) {
         GraficoTab grafico = new GraficoTab();
         grafico.setStudent(student);
         DetalhesTab detalhesTab = new DetalhesTab();
@@ -71,4 +80,46 @@ public class DetalhesAluno extends AppCompatActivity {
         }
         return true;
     }
+
+    public void retrofitConverter(int userCode) {
+
+
+        RetrofitService service = ServiceGenerator.createService(RetrofitService.class);
+
+        Call<Student> call = service.converterUnidade(userCode);
+
+        call.enqueue(new Callback<Student>() {
+
+            @Override
+            public void onResponse(Call<Student> call, Response<Student> response) {
+
+                if (response.isSuccessful()) {
+
+                    Log.d("Debug", "onResponse: ENTROU NESSA APP");
+                    //verifica aqui se o corpo da resposta não é nulo
+
+                    student = response.body();
+
+                    viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+                    setupViewPager();
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
+                    // segura os erros de requisição
+                    ResponseBody errorBody = response.errorBody();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Student> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 }

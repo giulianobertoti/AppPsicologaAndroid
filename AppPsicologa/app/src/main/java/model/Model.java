@@ -1,38 +1,32 @@
 package model;
 
-import android.os.StrictMode;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import rest.Connection;
 import object.Competencie;
 import object.Student;
-import rest.RestConnection;
 
 /**
  * Created by renan on 17/08/16.
  */
 public class Model {
     private List<Student> students = new ArrayList<>();
-    private static RestConnection con;
+    private static Connection con;
+
 
     static
     {
-        con = new RestConnection();
+        con = new Connection();
     }
 
     //Método que enviará a requisição GET ao WebService e retornará um estudante com suas competências
     public Student searchByCode(long code)
     {
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         /*
         * Varredura na memória local para busca de estudantes já carregados.
         * */
@@ -45,13 +39,13 @@ public class Model {
         /*
         * Conexão no webService para busca de estudantes.
         * */
-        String url = "http://teste-inacio.rhcloud.com/fatec/map/quiz/result/student?userCode=" + code;
+        String url = "http://teste-inacio.rhcloud.com/fatec/map/quiz/result/student?userCode="+code;
 
         Student webStudent = null;
 
         try
         {
-            JSONObject response = con.sendGetArray(url);
+            JSONObject response = con.sendGetObject(url);
             JSONArray competencies = response.getJSONArray("competencies");
             List<Competencie> lCompetencies = new ArrayList<>();
 
@@ -62,7 +56,7 @@ public class Model {
             }
 
             webStudent = new Student(response.getString("name"), response.getString("course"), response.getString("institution")
-                    , lCompetencies, response.getInt("userCode"), response.getInt("period"), response.getInt("year"), response.getString("ra"), response.getString("comments"));
+                    , lCompetencies, response.getInt("userCode"), response.getInt("period"), response.getInt("year"), response.getLong("ra"));
 
             if (webStudent != null)
             {
@@ -75,90 +69,6 @@ public class Model {
         }
         catch (Exception e)
         {
-        }
-
-        return webStudent;
-    }
-
-    public Student insertComment(long code, String comment)
-    {
-
-        for (Student std : students)
-        {
-            if (std.getUserCode() == code)
-                return std;
-        }
-
-
-        String url = "http://teste-inacio.rhcloud.com/fatec/map/enrolls/comment?studentCode="+code;
-
-        Student webStudent = null;
-
-        try
-        {
-            String response = RestConnection.sendPutPlainText(url, comment);
-
-            if(response.equals("true"))
-            {
-
-                webStudent = searchByCode(code);
-
-                if (webStudent != null)
-                {
-                    if(students.contains(webStudent))
-                    {
-                        students.get(students.indexOf(webStudent)).setComment(comment);
-                    }
-                    else
-                    {
-                        students.add(webStudent);
-                    }
-                }
-            }
-
-
-
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-
-        public static ArrayList<Student> studentsReturn(int institution, int period, int year, String course){
-        ArrayList<Student> students = new ArrayList<Student>();
-        String url = "http://teste-inacio.rhcloud.com/fatec/map/enrolls/search/students/all/fatec?fatecCode=" + institution;
-
-        try{
-            JSONArray response = RestConnection.sendGetArray(url);
-
-            for (int i = 0; i < response.length(); i++)
-            {
-                JSONObject obj = response.getJSONObject(i);
-                if(obj.getString("course").equals(course) && obj.getInt("period") == period && obj.getInt("year") == year){
-                    Student student = new Student();
-
-                    JSONObject json = obj.getJSONObject("user");
-                    student.setVerification(obj.getInt("verification"));
-                    student.setUserCode(json.getInt("userCode"));
-                    student.setName(json.getString("name"));
-
-                    students.add(student);
-                }
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return webStudent;

@@ -14,10 +14,10 @@ public class Student {
     private int userCode;
     private int period;
     private int year;
-    private String ra;
-    private String comment;
+    private long ra;
 
-    public Student(String name, String course, String institution, List<Competencie> competencies, int userCode, int period, int year, String ra, String comment) {
+    public Student(String name, String course, String institution, List<Competencie> competencies, int userCode, int period, int year, long ra){
+
         this.name = name;
         this.course = course;
         this.institution = institution;
@@ -26,7 +26,11 @@ public class Student {
         this.period = period;
         this.year = year;
         this.ra = ra;
-        this.comment = comment;
+
+    }
+
+    public Student(){
+
     }
 
     public String getName() {
@@ -57,16 +61,38 @@ public class Student {
         return year;
     }
 
-    public String getRa() {
+    public long getRa() {
         return ra;
     }
 
-    public String getComment() {
-        return comment;
-    }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+    @Override
+    public String toString()
+    {
+        StringBuilder str = new StringBuilder();
 
+        str.append("\nNome: ");
+        str.append(this.name);
+        str.append("\nCurso: ");
+        str.append(this.course);
+        str.append("\nInstitui��o: ");
+        str.append(this.institution);
+        str.append("\nUserCode: ");
+        str.append(this.userCode);
+        str.append("\nPeriodo: ");
+        str.append(this.period);
+        str.append("\nAno: ");
+        str.append(this.year);
+        str.append("\nRA: ");
+        str.append(this.ra);
+
+        str.append("\nCompetencias: ");
+
+        for(Competencie con : this.competencies)
+        {
+            str.append(con.toString());
+        }
+
+        return str.toString();
+    }
 }

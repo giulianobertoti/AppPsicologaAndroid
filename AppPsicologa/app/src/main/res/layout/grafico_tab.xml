@@ -13,12 +13,13 @@
         android:id="@+id/layoutChart"
         android:layout_width="match_parent"
         android:layout_height="420dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
-        <com.github.mikephil.charting.charts.RadarChart
+        <!--<com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" />-->
     </RelativeLayout>
 
     <RelativeLayout

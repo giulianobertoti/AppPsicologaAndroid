@@ -1,21 +1,17 @@
 package com.example.mari.menu;
 
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.view.inputmethod.InputMethodManager;
+
 import org.json.JSONObject;
 
-import model.Model;
 import object.Student;
-import rest.RestConnection;
+import rest.Connection;
 
 
 public class DetalhesTab extends Fragment {
@@ -39,46 +35,29 @@ public class DetalhesTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.detalhes_tab, container, false);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        final long studentCode = student.getUserCode();
+        View view = inflater.inflate(R.layout.detalhes_tab, container, false);
 
         final TextView textViewRa = (TextView) view.findViewById(R.id.lblRa);
         final TextView textViewNome = (TextView) view.findViewById(R.id.lblNome);
         final TextView textViewCurso = (TextView) view.findViewById(R.id.lblCurso);
         final TextView textViewComentario = (TextView) view.findViewById(R.id.comentario);
-        final EditText editComentario = (EditText) view.findViewById(R.id.txtComentario);
 
         Button btnSalvar = (Button) view.findViewById(R.id.btnSalvar);
 
-        textViewRa.setText(textViewRa.getText() + " " + String.valueOf(student.getRa() ));
+        textViewRa.setText(textViewRa.getText() + " " + String.valueOf(student.getRa() + "987654"));
         textViewCurso.setText(textViewCurso.getText() + " " + String.valueOf(student.getCourse()));
         textViewNome.setText(String.valueOf(student.getName()));
-        textViewComentario.setText(String.valueOf(textViewComentario.getText() + " " +student.getComment()));
-        editComentario.setText(String.valueOf(student.getComment()));
+
+        final String url = "http://localhost:4567/comentario";
+
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    final String cometary = String.valueOf(editComentario.getEditableText());
-                    Model model = new Model();
-                    Student returnStudent = model.insertComment( studentCode ,cometary);
-                    if(returnStudent!= null) {
-                        Toast.makeText(v.getContext(), "Comentário add com sucesso.", Toast.LENGTH_LONG).show();
-                        student.setComment(returnStudent.getComment());
-                        textViewComentario.setText(String.valueOf("Comentário: " +returnStudent.getComment()));
-                        editComentario.setText("");
-                        InputMethodManager imm;
-                        imm = (InputMethodManager) getActivity().getSystemService(v.getContext().INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(editComentario.getWindowToken(),
-                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    }
-                    else
-                    {
-                        Toast.makeText(v.getContext(), "Não é possível adicionar comentário.", Toast.LENGTH_LONG).show();
-                    }
+                    JSONObject req = new JSONObject();
+                    req.put("ra", textViewRa.getText());
+                    req.put("comentario", textViewComentario.getText().toString());
+                    JSONObject response = Connection.sendPostObject(url, req);
 
                 }catch(Exception ex){
                     ex.printStackTrace();
