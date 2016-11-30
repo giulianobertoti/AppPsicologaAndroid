@@ -91,7 +91,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(pesquisa_aluno);
 
             // Handle the camera action
-        } /*else if (id == R.id.nav_gallery) {
+        }
+        else if (id == R.id.pesquisar_curso) {
+            Intent pesquisa_curso = new Intent(this, SpinnerScreen.class);
+            startActivity(pesquisa_curso);
+
+            // Handle the camera action
+        }
+        /*else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 

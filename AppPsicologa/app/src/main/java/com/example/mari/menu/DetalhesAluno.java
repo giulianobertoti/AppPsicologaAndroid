@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import model.Model;
+import model.StudentModel;
 import object.Student;
 
 public class DetalhesAluno extends AppCompatActivity {
@@ -31,14 +31,16 @@ public class DetalhesAluno extends AppCompatActivity {
 
         long ra = Long.parseLong(intent.getStringExtra("ra"));
 
-        Model model = new Model();
-
-        student = model.searchByCode(ra);
+        student = StudentModel.searchByCode(ra);
 
         if (student == null) {
             Intent main_intent = new Intent(this, PesquisarAluno.class);
             main_intent.putExtra("error", "Student not found!");
             startActivity(main_intent);
+        }
+        else
+        {
+            student.setVerification(intent.getIntExtra("verification",1));
         }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);

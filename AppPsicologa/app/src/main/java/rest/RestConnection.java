@@ -25,53 +25,16 @@ public class RestConnection {
     private static final String METHOD_PUT = "PUT";
     private static final String METHOD_DELETE = "DELETE";
 
-    public static JSONObject sendGetArray(String url) throws IOException, JSONException
-    {
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        URL obj = new URL(url);
-
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        // optional default is GET
-        con.setRequestMethod("GET");
-
-        //add request header
-        con.setRequestProperty("User-Agent", USER_AGENT);
-
-        con.setRequestProperty( "charset", "utf-8");
-
-//        int responseCode = con.getResponseCode();
-//
-//        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        return new JSONObject(response.toString());
-    }
-
-   // public static JSONArray sendGetArray(String url) throws IOException, JSONException {
-     //   String contentType = "application/json";
-       // StringBuffer response = sendAbstractMethodRequest(url, null, METHOD_POST, contentType);
-     //   return new JSONArray(response.toString());
-   // }
+    public static JSONArray sendGetArray(String url) throws IOException, JSONException {
+    String contentType = "application/json";
+    StringBuffer response = sendAbstractMethodRequest(url, null, METHOD_GET, contentType);
+    return new JSONArray(response.toString());
+   }
 
     public static JSONObject sendGetObject(String url) throws IOException, JSONException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
         String contentType = "application/json";
-        StringBuffer response = sendAbstractMethodRequest(url, null, METHOD_POST, contentType);
+        StringBuffer response = sendAbstractMethodRequest(url, null, METHOD_GET, contentType);
         return new JSONObject(response.toString());
     }
 

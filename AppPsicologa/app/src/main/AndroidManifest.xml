@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".PesquisarAluno" android:label="Pesquisar Aluno" android:windowSoftInputMode="stateHidden" />
         <activity android:name=".DetalhesAluno" android:label="Detalhes do Aluno" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".SpinnerScreen" android:label="Buscar por Curso" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".StudentsScreen" android:label="Aluno" android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

@@ -11,11 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
-import org.json.JSONObject;
 
-import model.Model;
+import model.StudentModel;
 import object.Student;
-import rest.RestConnection;
 
 
 public class DetalhesTab extends Fragment {
@@ -57,14 +55,26 @@ public class DetalhesTab extends Fragment {
         textViewCurso.setText(textViewCurso.getText() + " " + String.valueOf(student.getCourse()));
         textViewNome.setText(String.valueOf(student.getName()));
         textViewComentario.setText(String.valueOf(textViewComentario.getText() + " " +student.getComment()));
-        editComentario.setText(String.valueOf(student.getComment()));
+
+
+        if(student.getVerification() != 1)
+        {
+            btnSalvar.setEnabled(false);
+            editComentario.setEnabled(false);
+            btnSalvar.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            editComentario.setText(String.valueOf(student.getComment()));
+        }
+
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     final String cometary = String.valueOf(editComentario.getEditableText());
-                    Model model = new Model();
-                    Student returnStudent = model.insertComment( studentCode ,cometary);
+
+                    Student returnStudent = StudentModel.insertComment( studentCode ,cometary);
                     if(returnStudent!= null) {
                         Toast.makeText(v.getContext(), "Comentário add com sucesso.", Toast.LENGTH_LONG).show();
                         student.setComment(returnStudent.getComment());
