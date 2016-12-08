@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import java.util.List;
 
 import model.StudentModel;
+import model.UserModel;
 import object.CoursesDatas;
 
 public class SpinnerScreen extends Activity {
@@ -28,7 +29,7 @@ public class SpinnerScreen extends Activity {
 
         //TODO variavel institution deve ser defenida um atributo da psicologa
         //TODO informando a qual FATEC ela atende
-        int institution = 1;
+        int institution = (UserModel.getUserSession() != null ?  UserModel.getUserSession().getInstCode() : 1);
         //listCourse sendo armazenado com nomes de alunos apenas para teste
         List<String> listCourse = StudentModel.courseReturn(institution);
         final Integer[] arrayPeriod = new Integer[]{1,2};

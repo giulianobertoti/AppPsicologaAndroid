@@ -15,22 +15,26 @@ import rest.RestConnection;
 
 public class UserModel {
 
-    public static User login(String username, String password){
-        User ususarioLogado = new User();
-        String url = "http://teste-inacio.rhcloud.com/fatec/map/token";
+    private static User userSession;
 
+    public static String login(String username, String password){
+        User ususarioLogado = null;
+        String url = "http://teste-inacio.rhcloud.com/fatec/map/token";
+        String responseText = "";
         try
         {
             JSONObject req = new JSONObject();
             req.put("userName", username);
             req.put("password", password);
 
-            JSONObject response = RestConnection.sendPostObject(url, req);
 
-            System.out.println(response);
+            responseText = RestConnection.sendPostPlainText(url, req);
+
+            JSONObject response = new JSONObject(responseText);
 
             if(response.getInt("userCode") > 0)
             {
+                ususarioLogado = new User();
                 ususarioLogado.setUserCode(response.getInt("userCode"));
                 ususarioLogado.setName(response.getString("name"));
                 ususarioLogado.setInstCode(response.getInt("instCode"));
@@ -41,11 +45,13 @@ public class UserModel {
                 ususarioLogado.setToken(response.getString("token"));
 
                 //TODO atrelar um student ou um Psicologo ao usuario dependendo do tipo
-
             }
+
         }
         catch (JSONException e) {
-            e.printStackTrace();
+
+            return  responseText;
+
         }
         catch (IOException e)
         {
@@ -56,7 +62,13 @@ public class UserModel {
             e.printStackTrace();
         }
 
-        return ususarioLogado;
+        userSession = ususarioLogado;
+        return "OK";
+    }
+
+    public static User getUserSession()
+    {
+        return userSession;
     }
 
 }

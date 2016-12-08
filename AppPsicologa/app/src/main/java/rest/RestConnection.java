@@ -51,6 +51,12 @@ public class RestConnection {
         return response.toString();
     }
 
+    public static String sendPostPlainText(String url, JSONObject params) throws IOException, JSONException {
+        String contentType = "application/json";
+        StringBuffer response = sendAbstractMethodRequest(url, params, METHOD_POST, contentType);
+        return response.toString();
+    }
+
     public static JSONArray sendPostArray(String url, JSONArray params) throws IOException, JSONException {
         String contentType = "application/json";
         StringBuffer response = sendAbstractMethodRequest(url, params, METHOD_POST, contentType);
